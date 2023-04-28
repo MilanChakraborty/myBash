@@ -1,38 +1,50 @@
 const fs = require('fs'); 
 
-const listEntries = function(directory) {
-  return fs.readdirSync(directory).join('  ');
+const getPwd = function() {
+  return process.env.PWD;
+}
+
+const showPwd = function(arg, pwd) {
+  return {pwd, output: pwd};
+}
+
+const listEntries = function(dirName, pwd) {
+  const directory = pwd;
+  const output = fs.readdirSync(directory).join('  ');
+  return {pwd, output};
 }
 
 const changeDir = function(directory, pwd) {
-  return `${pwd}/${directory}`
+  pwd = `${pwd}/${directory}`;
+  return {pwd, output: ""};
 }
 
-const runCommand = function(state, command) {
+const getCommand = function(commandCode) {
+  const commands = {
+    pwd: showPwd,
+    ls: listEntries,
+    cd: changeDir
+  };
+
+  return commands[commandCode];
+}
+
+const executeCommand = function(state, command) {
   let newPwd = state.pwd;
-  const cmdName = command.split(' ')[0];
-  const cmdArgs = command.split(' ')[1];
+  const [cmdName, cmdArgs] = command.split(' ');
 
-  if(cmdName === 'pwd') {
-    state.output.push(newPwd);
-  }
+  const parser = getCommand(cmdName);
+  const {pwd, output} = parser(cmdArgs, newPwd);
 
-  if(cmdName === 'ls') {
-    state.output.push(listEntries(newPwd));
-  }
-
-  if(cmdName === 'cd') {
-    newPwd = changeDir(cmdArgs, newPwd);
-  }
-
-  state.pwd = newPwd;
+  state.pwd = pwd;
+  state.output.push(output);
   return state;
 }
 
-const run = function(commands) {
-  const pwd = process.env.PWD;
+const execute = function(commands) {
+  const pwd = getPwd();
 
-  return commands.reduce(runCommand, {pwd, output: []})
+  return commands.reduce(executeCommand, {pwd, output: []})
 }
 
-exports.run = run;
+exports.execute = execute;

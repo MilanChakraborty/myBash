@@ -1,5 +1,5 @@
 const fs = require('fs');
-const {run} = require('./my-shell.js');
+const {execute} = require('./my-shell.js');
 
 const getCommands = function(script) {
   const stringifiedCommands = fs.readFileSync(`./${script}`, 'utf-8');
@@ -17,7 +17,7 @@ const main = function() {
   const script = process.argv[2];
   const commands = getCommands(script);
 
-  const finalState = run(commands);
+  const finalState = execute(commands);
   printOutput(finalState);
 }
 
