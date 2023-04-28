@@ -1,24 +1,33 @@
 const fs = require('fs');
 const {execute} = require('./executer.js');
 
-const getCommands = function(script) {
-  const stringifiedCommands = fs.readFileSync(`./${script}`, 'utf-8');
-  const commands = stringifiedCommands.split('\n').slice(0, -1);
-
-  return commands;
+const getLines = function(string) {
+  return string.split('\n').slice(0, -1);
 }
 
-const printOutput = function(state) {
-  const output = state.output.join("\n");
-  console.log(output);
+const getCommandLines = function(script) {
+  const string = fs.readFileSync(`./${script}`, 'utf-8');
+  const commandLines = getLines(string);
+
+  return commandLines;
+}
+
+const printOutputs = function(state) {
+  const outputs = state.output;
+
+  return outputs.forEach(function(output) {
+    if(output !== "") {
+      console.log(output);
+    }
+  })
 }
 
 const main = function() {
   const script = process.argv[2];
-  const commands = getCommands(script);
+  const commandLines = getCommandLines(script);
 
-  const finalState = execute(commands);
-  printOutput(finalState);
+  const finalState = execute(commandLines);
+  printOutputs(finalState);
 }
 
 main();

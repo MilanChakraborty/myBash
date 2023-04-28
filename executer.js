@@ -11,11 +11,10 @@ const getExecuter = function(commandCode) {
 }
 
 const executeCommand = function(state, command) {
-  let newPwd = state.pwd;
   const [cmdName, cmdArgs] = command.split(' ');
 
   const executer = getExecuter(cmdName);
-  const {pwd, output} = executer(cmdArgs, newPwd);
+  const {pwd, output} = executer(cmdArgs, state.pwd);
 
   state.pwd = pwd;
   state.output.push(output);

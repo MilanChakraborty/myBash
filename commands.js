@@ -11,7 +11,9 @@ const listEntries = function(dirName, pwd) {
 }
 
 const changeDir = function(directory, pwd) {
-  pwd = `${pwd}/${directory}`;
+  if(fs.existsSync(directory)) { 
+    pwd = `${pwd}/${directory}`;
+  }
   return {pwd, output: ""};
 }
 
