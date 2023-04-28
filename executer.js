@@ -1,23 +1,4 @@
-const fs = require('fs'); 
-
-const getPwd = function() {
-  return process.env.PWD;
-}
-
-const showPwd = function(arg, pwd) {
-  return {pwd, output: pwd};
-}
-
-const listEntries = function(dirName, pwd) {
-  const directory = pwd;
-  const output = fs.readdirSync(directory).join('  ');
-  return {pwd, output};
-}
-
-const changeDir = function(directory, pwd) {
-  pwd = `${pwd}/${directory}`;
-  return {pwd, output: ""};
-}
+const {listEntries, changeDir, showPwd} = require('./commands.js');
 
 const getExecuter = function(commandCode) {
   const commands = {
@@ -42,7 +23,7 @@ const executeCommand = function(state, command) {
 }
 
 const execute = function(commands) {
-  const pwd = getPwd();
+  const pwd = process.env.PWD;
 
   return commands.reduce(executeCommand, {pwd, output: []})
 }
