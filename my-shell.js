@@ -5,30 +5,39 @@ const script = process.argv[2];
 const stringifiedCommands = fs.readFileSync(`./${script}`, 'utf-8');
 const commands = stringifiedCommands.split('\n').slice(0, -1);
 
-const getPwd = function() {
-  return process.env.PWD;
-}
-
 const listEntries = function(directory) {
   return fs.readdirSync(directory).join('  ');
 }
 
-const run = function(commands) {
-  let output = '';
-  let pwd = process.env.PWD;
-
-  for(const command of commands) {
-    if(command === 'pwd') {
-      output += pwd + '\n';
-    }
-
-    if(command === 'ls') {
-      output += listEntries(pwd) + "\n";
-    }
-  }
-  return output;
+const changeDir = function(directory, pwd) {
+  return `${pwd}/${directory}`
 }
 
-console.log(run(commands));
+const runCommand = function(pwd, command) {
+  let newPwd = pwd;
+  const cmdName = command.split(' ')[0];
+  const cmdArgs = command.split(' ')[1];
+
+  if(cmdName === 'pwd') {
+    console.log(pwd);
+  }
+
+  if(cmdName === 'ls') {
+    console.log(listEntries(pwd));
+  }
+
+  if(cmdName === 'cd') {
+    newPwd = changeDir(cmdArgs, pwd);
+  }
+  return newPwd;
+}
+
+const run = function(commands) {
+  const pwd = process.env.PWD;
+
+  return commands.reduce(runCommand, pwd)
+}
+
+run(commands);
 
 exports.run = run;

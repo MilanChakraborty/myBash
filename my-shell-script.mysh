@@ -1,2 +1,4 @@
 pwd
 ls
+cd somewhere
+pwd
