@@ -19,7 +19,7 @@ const changeDir = function(directory, pwd) {
   return {pwd, output: ""};
 }
 
-const getCommand = function(commandCode) {
+const getExecuter = function(commandCode) {
   const commands = {
     pwd: showPwd,
     ls: listEntries,
@@ -33,8 +33,8 @@ const executeCommand = function(state, command) {
   let newPwd = state.pwd;
   const [cmdName, cmdArgs] = command.split(' ');
 
-  const parser = getCommand(cmdName);
-  const {pwd, output} = parser(cmdArgs, newPwd);
+  const executer = getExecuter(cmdName);
+  const {pwd, output} = executer(cmdArgs, newPwd);
 
   state.pwd = pwd;
   state.output.push(output);
