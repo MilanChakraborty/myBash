@@ -9,22 +9,23 @@ const getPwd = function() {
   return process.env.PWD;
 }
 
-const listEntries = function() {
-  return fs.readdirSync('.');
-}
-
-const commandSet = {
-  'pwd': getPwd,
-  'ls': listEntries
+const listEntries = function(directory) {
+  return fs.readdirSync(directory).join('  ');
 }
 
 const run = function(commands) {
   let output = '';
+  let pwd = process.env.PWD;
 
   for(const command of commands) {
-    output += commandSet[command]();
-  }
+    if(command === 'pwd') {
+      output += pwd + '\n';
+    }
 
+    if(command === 'ls') {
+      output += listEntries(pwd) + "\n";
+    }
+  }
   return output;
 }
 
