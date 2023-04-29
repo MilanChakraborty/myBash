@@ -1,33 +1,31 @@
 const fs = require('fs');
 
-const showPwd = function(pwd) {
-  const code = 0;
-
-  return [pwd, {output: pwd, exitCode: code }];
+const pwd = function(pwd) {
+  return {pwd, result: {output: pwd, exitCode: 0}};
 }
 
 const listEntries = function(pwd) {
-  const directory = pwd;
-  const result = fs.readdirSync(directory).join('  ');
+  const directory = pwd
+  const files = fs.readdirSync(directory).join('  ');
   const code = 0;
 
-  return [pwd, { output: result, exitCode: code}];
+  return {pwd, result: { output: files, exitCode: code}};
 }
 
 const changeDir = function(pwd, directory) {
-  const state = [pwd, {output: "", exitCode: 1}];
+  const state = {pwd, result: {output: "", exitCode: 1}};
 
   if(!fs.existsSync(directory)) { 
-    state[1].output = "Directory Doesnot exists";
+    state.result.output = "Directory Doesnot exists";
     return state; 
   }
 
-  state[0] = `${pwd}/${directory}`;
-  state[1].exitCode = 0;
+  state.pwd = `${pwd}/${directory}`;
+  state.result.exitCode = 0;
 
   return state;
 }
 
-exports.showPwd = showPwd;
+exports.pwd = pwd;
 exports.listEntries = listEntries;
 exports.changeDir = changeDir;

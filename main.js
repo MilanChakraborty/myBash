@@ -1,7 +1,7 @@
 const fs = require('fs');
+const { loadScript, parse } = require('./loader-and-parser.js');
 const { execute } = require('./executer.js');
 const { displayResults } = require('./display-result.js');
-const { parse } = require('./parser.js');
 
 const main = function() {
   const scriptPath = process.argv[2];
@@ -11,7 +11,8 @@ const main = function() {
     return;
   }
 
-  const executableScript = parse(scriptPath);
+  const script = loadScript(scriptPath);
+  const executableScript = parse(script);
   const outputLog = execute(executableScript);
 
   displayResults(outputLog);

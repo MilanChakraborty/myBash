@@ -1,8 +1,8 @@
-const {listEntries, changeDir, showPwd} = require('./commands.js');
+const {listEntries, changeDir, pwd} = require('./commands.js');
 
 const getExecuter = function(commandCode) {
   const executers = {
-    pwd: showPwd,
+    pwd: pwd,
     ls: listEntries,
     cd: changeDir
   };
@@ -12,10 +12,13 @@ const getExecuter = function(commandCode) {
 
 const executeCommand = function(state, command) {
   const [cmdName, cmdArgs] = command.split(' ');
-
   const executer = getExecuter(cmdName);
-  const [pwd, result] = executer(state.pwd, cmdArgs);
 
+  if(executer === undefined) {
+    return state;
+  }
+
+  const {pwd, result} = executer(state.pwd, cmdArgs);
   return {pwd, results: [...state.results, result]};
 }
 
