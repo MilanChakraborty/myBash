@@ -14,17 +14,16 @@ const executeCommand = function(state, command) {
   const [cmdName, cmdArgs] = command.split(' ');
 
   const executer = getExecuter(cmdName);
-  const {pwd, result, code} = executer(cmdArgs, state.pwd);
+  const {pwd, result} = executer(state.pwd, cmdArgs);
 
   state.pwd = pwd;
   state.results.push(result);
-  state.codes.push(code);
 
   return state;
 }
 
 const execute = function(commands) {
-  const initialState = {pwd: process.env.PWD, results: [], codes: []}
+  const initialState = {pwd: process.env.PWD, results: []}
 
   return commands.reduce(executeCommand, initialState)
 }
