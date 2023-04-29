@@ -14,12 +14,9 @@ const executeCommand = function(state, command) {
   const [cmdName, cmdArgs] = command.split(' ');
 
   const executer = getExecuter(cmdName);
-  const {pwd, result} = executer(state.pwd, cmdArgs);
+  const [pwd, result] = executer(state.pwd, cmdArgs);
 
-  state.pwd = pwd;
-  state.results.push(result);
-
-  return state;
+  return {pwd, results: [...state.results, result]};
 }
 
 const execute = function(commands) {

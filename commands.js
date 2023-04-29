@@ -3,7 +3,7 @@ const fs = require('fs');
 const showPwd = function(pwd) {
   const code = 0;
 
-  return {pwd, result: { output: pwd, exitCode: code }};
+  return [pwd, {output: pwd, exitCode: code }];
 }
 
 const listEntries = function(pwd) {
@@ -11,19 +11,19 @@ const listEntries = function(pwd) {
   const result = fs.readdirSync(directory).join('  ');
   const code = 0;
 
-  return {pwd, result: { output: result, exitCode: code}};
+  return [pwd, { output: result, exitCode: code}];
 }
 
 const changeDir = function(pwd, directory) {
-  const state = {pwd, result: {output: "", exitCode: 1}}
+  const state = [pwd, {output: "", exitCode: 1}];
 
   if(!fs.existsSync(directory)) { 
-    state.result.output = "Directory Doesnot exists";
+    state[1].output = "Directory Doesnot exists";
     return state; 
   }
 
-  state.pwd = `${pwd}/${directory}`;
-  state.result.code = 0;
+  state[0] = `${pwd}/${directory}`;
+  state[1].exitCode = 0;
 
   return state;
 }

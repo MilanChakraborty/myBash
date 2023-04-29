@@ -12,9 +12,9 @@ const main = function() {
   }
 
   const executableScript = parse(scriptPath);
-  const results = execute(executableScript);
+  const outputLog = execute(executableScript);
 
-  displayResults(results);
+  displayResults(outputLog);
 }
 
 main();
