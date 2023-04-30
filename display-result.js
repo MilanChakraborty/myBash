@@ -1,11 +1,28 @@
-const displayResults = function(state) {
-  const  { results } = state;
+const isError = function(exitCode) {
+  return exitCode !== 0;
+}
 
-  results.forEach(function(result) {
-    if(result.output === "") return;
+const outcomeNotPrintable = function(outcome) {
+  const error = outcome.error;
+  const output = outcome.output;
 
-    const streamToUse = result.exitCode === 0 ? console.log : console.error;
-    streamToUse(result.output);
+  return error === "" && output === "";
+}
+
+const displayResults = function(outcomesLog) {
+  const  { outcomes } = outcomesLog;
+
+  outcomes.forEach(function(outcome) {
+    if(outcomeNotPrintable(outcome)) {
+      return;
+    }
+
+    if(isError(outcome.exitCode)) {
+      console.error(outcome.error);
+      return;
+    }
+
+    console.log(outcome.output);
   });
 }
 

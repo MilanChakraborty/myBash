@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 const pwd = function(environment) {
-  console.log(environment);
   const output = environment.pwd;
 
   return {environment, output, error: '', exitCode: 0};

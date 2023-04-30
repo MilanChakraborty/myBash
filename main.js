@@ -13,10 +13,9 @@ const main = function() {
 
   const script = loadScript(scriptPath);
   const executableInstructions = parse(script);
-  const outputLog = execute(executableInstructions);
-  console.log(outputLog);
+  const outcomesLog = execute(executableInstructions);
 
-  //displayResults(outputLog);
+  displayResults(outcomesLog);
 }
 
 main();
