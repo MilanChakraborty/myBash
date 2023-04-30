@@ -1,11 +1,20 @@
 const fs = require('fs');
 
-const parse = function(commandLines) {
-  return commandLines.split('\n').slice(0, -1);
+const tokenize = function(script) {
+  return script.trim().split('\n');
+}
+
+const parse = function(script) {
+  const tokens = tokenize(script);
+
+  return tokens.map(function(token) {
+    const [ cmdName, ...args] = token.split(" ");
+    return { cmdName, args };
+  })
 }
 
 const loadScript = function(scriptPath) {
-  return commandLines = fs.readFileSync(scriptPath, 'utf-8');
+  return fs.readFileSync(scriptPath, 'utf-8');
 }
 
 exports.parse = parse;

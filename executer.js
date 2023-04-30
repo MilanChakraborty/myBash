@@ -10,22 +10,27 @@ const getExecuter = function(commandCode) {
   return executers[commandCode];
 }
 
-const executeCommand = function(state, command) {
-  const [cmdName, cmdArgs] = command.split(' ');
+const executeCommand = function({environment, outcomes}, {cmdName, args}) {
   const executer = getExecuter(cmdName);
 
   if(executer === undefined) {
-    return state;
+    const output = '';
+    const error = `Bash: ${cmdName} is not a valid command`; 
+    const exitCode = 1;
+
+    return {environment, outcomes: [...outcomes, {output, error, exitCode}]};
   }
 
-  const {pwd, result} = executer(state.pwd, cmdArgs);
-  return {pwd, results: [...state.results, result]};
+  const {environment: newEnvironment, output, error, exitCode} = executer(environment, args);
+  return {environment: {...newEnvironment}, outcomes: [...outcomes, {output, error, exitCode}]};
 }
 
-const execute = function(commands) {
-  const initialState = {pwd: process.env.PWD, results: []}
+const execute = function(instructions) {
+  const environment = {
+    pwd: process.env.PWD,
+  }; 
 
-  return commands.reduce(executeCommand, initialState)
+  return instructions.reduce(executeCommand, {environment, outcomes: []});
 }
 
 exports.execute = execute;

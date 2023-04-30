@@ -12,10 +12,11 @@ const main = function() {
   }
 
   const script = loadScript(scriptPath);
-  const executableScript = parse(script);
-  const outputLog = execute(executableScript);
+  const executableInstructions = parse(script);
+  const outputLog = execute(executableInstructions);
+  console.log(outputLog);
 
-  displayResults(outputLog);
+  //displayResults(outputLog);
 }
 
 main();
