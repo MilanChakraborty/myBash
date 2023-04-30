@@ -1,4 +1,5 @@
 const {listEntries, changeDir, pwd} = require('./commands.js');
+const { resolvePath } = require('./path-handler.js');
 
 const getExecuter = function(commandCode) {
   const executers = {
@@ -21,13 +22,18 @@ const executeCommand = function({environment, outcomes}, {cmdName, args}) {
     return {environment, outcomes: [...outcomes, {output, error, exitCode}]};
   }
 
-  const {environment: newEnvironment, output, error, exitCode} = executer(environment, args);
+  const resolvedArgs = args.map(function(arg) {
+    return resolvePath(arg, environment);
+  });
+
+  const {environment: newEnvironment, output, error, exitCode} = executer(environment, resolvedArgs);
   return {environment: {...newEnvironment}, outcomes: [...outcomes, {output, error, exitCode}]};
 }
 
 const execute = function(instructions) {
   const environment = {
     pwd: process.env.PWD,
+    home: process.env.HOME
   }; 
 
   return instructions.reduce(executeCommand, {environment, outcomes: []});

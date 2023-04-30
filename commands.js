@@ -1,4 +1,5 @@
 const fs = require('fs');
+const {isAbsolutePath} = require('./path-handler.js');
 
 const pwd = function(environment) {
   const output = environment.pwd;
@@ -18,11 +19,10 @@ const changeDir = function(environment, args) {
 
   if(!fs.existsSync(destinationDir)) { 
     const error = `cd: No such File or Directory: ${destinationDir}`;
-
     return {environment, output: '', error, exitCode: 1}; 
   }
 
-  const pwd = `${environment.pwd}/${destinationDir}`; 
+  const pwd = destinationDir; 
   return  {environment: {...environment, pwd}, output: '', error: '', exitCode: 0}; 
 }
 

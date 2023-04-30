@@ -1,3 +1,5 @@
 pwd
+ls 
+cd ../../../../../..
 ls
-cd somewhere
+pwd
