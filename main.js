@@ -13,9 +13,9 @@ const main = function() {
 
   const script = loadScript(scriptPath);
   const executableInstructions = parse(script);
-  const outcomesLog = execute(executableInstructions);
+  const { environment, outcomes } = execute(executableInstructions);
 
-  displayResults(outcomesLog);
+  displayResults(outcomes);
 }
 
 main();

@@ -2,20 +2,14 @@ const isError = function(exitCode) {
   return exitCode !== 0;
 }
 
-const outcomeNotPrintable = function(outcome) {
-  const error = outcome.error;
-  const output = outcome.output;
-
+const streamsEmpty = function({output, error}) {
   return error === "" && output === "";
 }
 
-const displayResults = function(outcomesLog) {
-  const  { outcomes } = outcomesLog;
+const displayResults = function(outcomes) {
 
   outcomes.forEach(function(outcome) {
-    if(outcomeNotPrintable(outcome)) {
-      return;
-    }
+    if(streamsEmpty(outcome)) return;
 
     if(isError(outcome.exitCode)) {
       console.error(outcome.error);

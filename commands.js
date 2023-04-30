@@ -17,14 +17,13 @@ const changeDir = function(environment, args) {
   const destinationDir = args[0];
 
   if(!fs.existsSync(destinationDir)) { 
-    const error = `cd: ${destinationDir} is not a Directory`;
+    const error = `cd: No such File or Directory: ${destinationDir}`;
 
     return {environment, output: '', error, exitCode: 1}; 
   }
 
-  const newEnvironment = {...environment, pwd: `${environment.pwd}/${destinationDir}`}; 
-
-  return {environment: {...newEnvironment}, output: '', error: '', exitCode: 0};
+  const pwd = `${environment.pwd}/${destinationDir}`; 
+  return  {environment: {...environment, pwd}, output: '', error: '', exitCode: 0}; 
 }
 
 exports.pwd = pwd;
