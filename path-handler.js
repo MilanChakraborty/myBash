@@ -6,6 +6,7 @@ const isAbsolutePath = function(path) {
 
 const hasHomeShorthand = function(path) {
   return /^~/.test(path);
+
 }
 
 const hasCurrentDirShortHand = function(path) {
@@ -21,13 +22,17 @@ const resolveCurrentDir = function(path) {
 }
 
 const resolveParentDir = function(path) {
-  if(path === '') return '/';
+  let newPath = path;
 
-  if(!path.includes('..')) return path;
+  if(newPath === '') return '/';
 
-  if(path.startsWith("/..")) return "/";
+  if(!newPath.includes('..')) return newPath;
 
-  const newPath = path.replace(/\/[^\/]*\/\.\./, ''); 
+  if(newPath.startsWith("/..")) {
+    newPath = newPath.replace("/..", "");
+  }
+
+  newPath = newPath.replace(/\/[^\/]*\/\.\./, ''); 
   return resolveParentDir(newPath);
 }
 
