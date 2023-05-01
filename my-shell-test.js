@@ -4,8 +4,10 @@ const {resolveStar} = require('./wildcard-handler.js');
 
 describe("Wildcard expansion", function() {
   it("expansion of star", function() {
-    deepStrictEqual(resolveStar({pwd: process.env.PWD}, "*"), [
+    let actual = resolveStar({pwd: process.env.PWD}, "*");
+    let expected = [
       '.git',
+      'another-somewhere',
       'commands.js',
       'display-result.js',
       'executer.js',
@@ -16,7 +18,8 @@ describe("Wildcard expansion", function() {
       'path-handler.js',
       'somewhere',
       'wildcard-handler.js'
-    ]);
+    ];
+    deepStrictEqual(actual, expected)
   });
 
 
@@ -33,12 +36,17 @@ describe("Wildcard expansion", function() {
     deepStrictEqual(actual, expected);
   });
 
-
   const environment = {pwd: process.env.PWD};
-  it("Should expand two levels", function() {
+  it("Should expand multiple levels", function() {
     let actual = resolveStar(environment, "somewhere/*/*");
     let expected = ["somewhere/inside/a.txt", "somewhere/inside/b.txt"];
     deepStrictEqual(actual, expected);
   });
+
+  // it("Should expand multiple levels", function() {
+  //   let actual = resolveStar(environment, "another-somewhere/*/*/*");
+  //   let expected = ["somewhere/inside/a.txt", "somewhere/inside/b.txt"];
+  //   deepStrictEqual(actual, expected);
+  // });
 });
 
