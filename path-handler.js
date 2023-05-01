@@ -17,6 +17,10 @@ const hasParentDirShortHand = function(path) {
   return /\.\./.test(path);
 }
 
+const resolveHomeShortHand = function(path, environment) {
+  return path.replace('~', environment.home);
+}
+
 const resolveCurrentDir = function(path) {
   return path.replace(/\/\./g, '');
 }
@@ -47,15 +51,12 @@ const resolveShortHands = function(path) {
     resolvedPath = resolveCurrentDir(resolvedPath);
   }
 
-  if(hasHomeShorthand(resolvedPath)) {
-    resolvedPath =  path.replace('~', environment.home); 
-  }
-
   return resolvedPath;
 }
 
 const resolvePath = function(path, environment) {
-  let absolutePath = isAbsolutePath(path) ? path : `${environment.pwd}/${path}`; 
+  let absolutePath = hasHomeShorthand(path) ? resolveHomeShortHand(path, environment) : path;
+  absolutePath = isAbsolutePath(absolutePath) ? absolutePath : `${environment.pwd}/${path}`; 
 
   return resolveShortHands(absolutePath);
 }
