@@ -17,20 +17,28 @@ describe("Wildcard expansion", function() {
       'somewhere',
       'wildcard-handler.js'
     ]);
-  })
+  });
 
 
   it("expansion inside another directory", function() {
     let actual = resolveStar({pwd: process.env.PWD}, "somewhere/*");
     let expected = ["somewhere/inside"];
     deepStrictEqual(actual, expected);
-  })
+  });
 
 
   it("expansion inside another directory", function() {
     let actual = resolveStar({pwd: process.env.PWD}, "somewhere/inside/*");
     let expected = ["somewhere/inside/a.txt", "somewhere/inside/b.txt"];
     deepStrictEqual(actual, expected);
-  })
-})
+  });
+
+
+  const environment = {pwd: process.env.PWD};
+  it("Should expand two levels", function() {
+    let actual = resolveStar(environment, "somewhere/*/*");
+    let expected = ["somewhere/inside/a.txt", "somewhere/inside/b.txt"];
+    deepStrictEqual(actual, expected);
+  });
+});
 
