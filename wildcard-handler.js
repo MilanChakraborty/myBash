@@ -4,6 +4,11 @@ const {resolvePath} = require("./path-handler");
 const resolveEndingStar = function(absPath, relPath) {
   const absolutePath = absPath.slice(0, -1);
   const pathBeforeExpansion = relPath.slice(0, -1);
+
+  if(!fs.existsSync(absolutePath)) {
+    return [];
+  };
+
   const contents = fs.readdirSync(absolutePath);
 
   return contents.map(function(content) {

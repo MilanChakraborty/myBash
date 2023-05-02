@@ -8,7 +8,7 @@ const parse = function(script) {
   const tokens = tokenize(script);
 
   return tokens.map(function(token) {
-    const [ cmdName, ...args] = token.split(" ");
+    const [ cmdName, ...args ] = token.split(" ");
     return { cmdName, args };
   })
 }
