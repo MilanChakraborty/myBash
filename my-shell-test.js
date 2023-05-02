@@ -78,5 +78,11 @@ describe("Wildcard expansion", function() {
     ]
     deepStrictEqual(actual, expected);
   })
+
+  it("Should give all the files of two levels", function() {
+    let actual = resolveStar("\*\/*", environment);
+    let expected = [];
+    deepStrictEqual(actual, expected);
+  });
 });
 

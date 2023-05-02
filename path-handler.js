@@ -6,7 +6,6 @@ const isAbsolutePath = function(path) {
 
 const hasHomeShorthand = function(path) {
   return /^~/.test(path);
-
 }
 
 const hasCurrentDirShortHand = function(path) {
@@ -22,7 +21,7 @@ const resolveHomeShortHand = function(path, environment) {
 }
 
 const resolveCurrentDir = function(path) {
-  return path.replace(/\/\./g, '');
+  return path.replaceAll("/./", '/');
 }
 
 const resolveParentDir = function(path) {
