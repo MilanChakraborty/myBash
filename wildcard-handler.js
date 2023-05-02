@@ -18,11 +18,9 @@ const resolveStar = function(path, environment) {
   let pathTillStar = path.slice(0, indexOfFirstWildCard + 1);
   let absPathTillStar = resolvePath(pathTillStar, environment);
   let pathAfterStar = path.slice(indexOfFirstWildCard + 1);
-  console.log(absPathTillStar);
   const expandedPaths = resolveEndingStar(absPathTillStar, pathTillStar);
 
   return expandedPaths.flatMap(function(path) {
-    console.log(`${path}${pathAfterStar}`);
     return resolveStar(`${path}${pathAfterStar}`, environment);
   });
 }
